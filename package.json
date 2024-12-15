@@ -1,46 +1,102 @@
 {
-  "name": "@sfxcode/vitepress-blog-starter",
+  "name": "@jcamp/vitepress-blog-theme",
   "type": "module",
-  "version": "0.10.0",
-  "description": "Vitepress Starter, UnoCSS, Anu, Blog",
-  "author": "Tom Lamers",
+  "version": "0.3.0",
+  "packageManager": "pnpm@8.2.0",
+  "description": "VitePress easy to use blog theme",
+  "author": "John Campion (https://github.com/JohnCampionJr/)",
   "license": "MIT",
+  "homepage": "https://github.com/jcamp-code/vitepress-blog-theme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcamp-code/vitepress-blog-theme.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jcamp-code/vitepress-blog-theme/issues"
+  },
   "keywords": [
-    "Vitepress",
-    "Starter",
-    "UnoCSS",
-    "Anu"
+    "vite",
+    "vue",
+    "vitepress",
+    "theme",
+    "blog"
   ],
-  "main": "index.js",
+  "exports": {
+    ".": "./src/theme/index.ts",
+    "./config": "./dist/config/index.js",
+    "./package.json": "./package.json"
+  },
+  "main": "src/theme/index.ts",
+  "files": [
+    "src",
+    "dist",
+    "config.d.ts"
+  ],
   "scripts": {
+    "prepare": "npx simple-git-hooks && pnpm build-config",
+    "lint": "prettier --check --write --parser typescript \"{__tests__,docs,src,types}/**/*.ts\"",
+    "lint:fail": "prettier --check --parser typescript \"{__tests__,docs,src,types}/**/*.ts\"",
+    "type": "tsc --noEmit",
+    "build-config": "tsc -p ./src/config && cp ./dist/config/index.d.ts ./config.d.ts",
+    "test": "pnpm lint && pnpm type",
     "dev": "vitepress dev docs",
-    "build": "vitepress build docs",
-    "serve": "vitepress serve docs",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "release": "npm run lint && npm run build && changelogen --major --release  && git push --follow-tags"
+    "build": "pnpm build-config && vitepress build docs",
+    "serve": "pnpm build && vitepress serve docs",
+    "release": "changelogen --release --push && pnpm publish --access public",
+    "release:minor": "changelogen --release --minor --push && pnpm publish --access public",
+    "release:major": "changelogen --release --major --push && pnpm publish --access public",
+    "release:patch": "changelogen --release --patch --push && pnpm publish --access public"
+  },
+  "peerDependencies": {
+    "vitepress": "^1.0.0-alpha.74"
+  },
+  "dependencies": {
+    "@iconify-json/bx": "^1.1.6",
+    "@iconify-json/carbon": "^1.1.16",
+    "@iconify-json/fluent-emoji": "^1.1.12",
+    "@iconify-json/heroicons-outline": "^1.1.6",
+    "@iconify-json/logos": "^1.1.24",
+    "@jcamp/tailwindcss-plugin-icons": "^0.5.0",
+    "@tailwindcss/typography": "^0.5.4",
+    "autoprefixer": "^10.4.13",
+    "date-fns": "^2.29.3",
+    "feed": "^4.2.2",
+    "postcss": "^8.4.20",
+    "tailwindcss": "^3.3.1",
+    "vitepress": "1.0.0-alpha.74",
+    "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.11.2",
-    "@anu-vue/preset-theme-default": "^0.15.2",
-    "@iconify-json/bx": "^1.2.1",
-    "@iconify-json/fluent-emoji": "^1.2.1",
-    "@iconify-json/heroicons-outline": "^1.2.0",
-    "@iconify-json/logos": "^1.2.3",
-    "@types/node": "^22.10.1",
-    "@unocss/preset-icons": "0.64.1",
-    "@unocss/preset-uno": "0.64.1",
-    "@vueuse/core": "^12.0.0",
-    "anu-vue": "^0.15.2",
-    "changelogen": "^0.5.7",
-    "date-fns": "^4.1.0",
-    "eslint": "^9.15.0",
-    "fs-extra": "^11.2.0",
+    "@commitlint/cli": "^17.6.1",
+    "@jcamp/eslint-config": "0.6.1",
+    "@types/node": "^18.15.13",
+    "changelogen": "^0.5.3",
+    "commitlint-config-unjs": "^1.0.1",
+    "eslint": "^8.38.0",
     "gray-matter": "^4.0.3",
-    "markdown-it": "^14.1.0",
-    "typescript": "^5.7.2",
-    "unocss": "0.64.1",
-    "vitepress": "1.5.0",
-    "vue": "^3.5.13"
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.7",
+    "simple-git-hooks": "^2.8.1",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.1",
+    "vitepress": "1.0.0-alpha.74",
+    "vitest": "^0.30.1",
+    "vue": "^3.2.47"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search"
+      ],
+      "allowedVersions": {
+        "typescript": "5"
+      }
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "tailwindcss": {},
+      "autoprefixer": {}
+    }
   }
 }
